@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "An ecommerce chatbot created for the facebook messenger platform",
   "main": "src/app.ts",
+  "type": "module",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/app.ts"
   },
