@@ -30,7 +30,7 @@ export const postWebHook = (req: Request, res: Response) => {
     const body = req.body
     if (body.object === 'page') {
       
-        body.entry.forEach((entry) => {
+        body.entry.forEach((entry:any) => {
     
           let webhook_event = entry.messaging[0];
           console.log(webhook_event);
