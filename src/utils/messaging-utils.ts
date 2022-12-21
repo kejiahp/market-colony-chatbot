@@ -31,15 +31,13 @@ const callSendAPI = async (sender_psid:string, response:any) => {
 export const handleMessage = async (sender_psid:string, received_message: any) => {
     let response;
 
-    // Check if the message contains text
-    if (received_message.text) {
-      console.log("Show message",received_message)
-      console.log("Show payload",received_message.payload)
-        switch (received_message.payload) {
+    if (received_message && received_message.quick_reply && received_message.quick_reply.payload) {
+        switch (received_message.quick_reply.payload) {
           case "ELECTRONICS":
             const electronicProducts = await getElectronics()
     
             response = categoryProducts(electronicProducts)
+            await sendTypingOn(sender_psid)
             await callSendAPI(sender_psid, response);
     
             break
@@ -47,6 +45,8 @@ export const handleMessage = async (sender_psid:string, received_message: any) =
             const jeweleryProducts = await getJewelries()
     
             response = categoryProducts(jeweleryProducts)
+
+            await sendTypingOn(sender_psid)
             await callSendAPI(sender_psid, response);
     
             break
@@ -54,6 +54,8 @@ export const handleMessage = async (sender_psid:string, received_message: any) =
             const mensProducts = await getMensClothing()
     
             response = categoryProducts(mensProducts)
+
+            await sendTypingOn(sender_psid)
             await callSendAPI(sender_psid, response);
     
             break
@@ -61,12 +63,16 @@ export const handleMessage = async (sender_psid:string, received_message: any) =
             const womensProducts = await getWomensClothing()
     
             response = categoryProducts(womensProducts)
+
+            await sendTypingOn(sender_psid)
             await callSendAPI(sender_psid, response);
     
             break
         
           default:
             response = {"text": `You sent the message: "${received_message.text}". Now send me an image!`}
+
+            await sendTypingOn(sender_psid)
             await callSendAPI(sender_psid, response);
             break;
         }
