@@ -28,15 +28,46 @@ const callSendAPI = (sender_psid:string, response:any) => {
 }
 
 // Handles messages events
-export const handleMessage = (sender_psid:string, received_message: any) => {
+export const handleMessage = async (sender_psid:string, received_message: any) => {
     let response;
+
     // Check if the message contains text
-    if (received_message.text) {    
-  
-      // Create the payload for a basic text message
-      response = {
-        "text": `You sent the message: "${received_message.text}". Now send me an image!`
-      }
+    if (received_message.text) { 
+        switch (received_message.payload) {
+          case "ELECTRONICS":
+            const electronicProducts = await getElectronics()
+    
+            response = categoryProducts(electronicProducts)
+            callSendAPI(sender_psid, response);
+    
+            break
+          case "JEWELERY":
+            const jeweleryProducts = await getJewelries()
+    
+            response = categoryProducts(jeweleryProducts)
+            callSendAPI(sender_psid, response);
+    
+            break
+          case "MENS_CLOTHING":
+            const mensProducts = await getMensClothing()
+    
+            response = categoryProducts(mensProducts)
+            callSendAPI(sender_psid, response);
+    
+            break
+          case "WOMENS_CLOTHING":
+            const womensProducts = await getWomensClothing()
+    
+            response = categoryProducts(womensProducts)
+            callSendAPI(sender_psid, response);
+    
+            break
+        
+          default:
+            response = {"text": `You sent the message: "${received_message.text}". Now send me an image!`}
+            callSendAPI(sender_psid, response);
+            break;
+        }
     } else if (received_message.attachments) {
       //get the payload.url
       let attachment_urls = []
@@ -49,10 +80,10 @@ export const handleMessage = (sender_psid:string, received_message: any) => {
         })
         
         response = imageAttachments(attachment_url)
+
+        callSendAPI(sender_psid, response);
       }
-    
-    // Sends the response message
-    callSendAPI(sender_psid, response);  
+      
 }
 
 // Handles messaging_postbacks events
@@ -87,34 +118,6 @@ export const handlePostback = async (sender_psid:string, received_postback: Mess
         //third message
         response = viewCategories
         callSendAPI(sender_psid, response);
-        break
-      case "ELECTRONICS":
-        const electronicProducts = await getElectronics()
-
-        response = categoryProducts(electronicProducts)
-        callSendAPI(sender_psid, response);
-
-        break
-      case "JEWELERY":
-        const jeweleryProducts = await getJewelries()
-
-        response = categoryProducts(jeweleryProducts)
-        callSendAPI(sender_psid, response);
-
-        break
-      case "MENS_CLOTHING":
-        const mensProducts = await getMensClothing()
-
-        response = categoryProducts(mensProducts)
-        callSendAPI(sender_psid, response);
-
-        break
-      case "WOMENS_CLOTHING":
-        const womensProducts = await getWomensClothing()
-
-        response = categoryProducts(womensProducts)
-        callSendAPI(sender_psid, response);
-
         break
       case "VIEW_CART":
         break
