@@ -1,7 +1,6 @@
 import express from "express"
 import routes from "./routes"
 import dotenv from 'dotenv'
-import path from "path"
 
 const app = express()
 dotenv.config()
@@ -12,7 +11,7 @@ app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 
 //setting up ejs views
-app.use(express.static(path.join(__dirname, './src/public')))
+app.use(express.static('./src/public'))
 app.set('view engine', 'ejs')
 app.set('views', './src/views')
 
