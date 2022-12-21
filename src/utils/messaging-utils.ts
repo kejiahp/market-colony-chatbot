@@ -4,7 +4,7 @@ import { getElectronics, getJewelries, getMensClothing, getUserDetails, getWomen
 import { categoryProducts, imageAttachments, viewCategories } from "./template-responses";
 
 // Sends response messages via the Send API
-const callSendAPI = (sender_psid:string, response:any) => {
+const callSendAPI = async (sender_psid:string, response:any) => {
     let request_body = {
       "recipient": {
         "id": sender_psid
@@ -38,34 +38,34 @@ export const handleMessage = async (sender_psid:string, received_message: any) =
             const electronicProducts = await getElectronics()
     
             response = categoryProducts(electronicProducts)
-            callSendAPI(sender_psid, response);
+            await callSendAPI(sender_psid, response);
     
             break
           case "JEWELERY":
             const jeweleryProducts = await getJewelries()
     
             response = categoryProducts(jeweleryProducts)
-            callSendAPI(sender_psid, response);
+            await callSendAPI(sender_psid, response);
     
             break
           case "MENS_CLOTHING":
             const mensProducts = await getMensClothing()
     
             response = categoryProducts(mensProducts)
-            callSendAPI(sender_psid, response);
+            await callSendAPI(sender_psid, response);
     
             break
           case "WOMENS_CLOTHING":
             const womensProducts = await getWomensClothing()
     
             response = categoryProducts(womensProducts)
-            callSendAPI(sender_psid, response);
+            await callSendAPI(sender_psid, response);
     
             break
         
           default:
             response = {"text": `You sent the message: "${received_message.text}". Now send me an image!`}
-            callSendAPI(sender_psid, response);
+            await callSendAPI(sender_psid, response);
             break;
         }
     } else if (received_message.attachments) {
@@ -81,7 +81,7 @@ export const handleMessage = async (sender_psid:string, received_message: any) =
         
         response = imageAttachments(attachment_url)
 
-        callSendAPI(sender_psid, response);
+        await callSendAPI(sender_psid, response);
       }
       
 }
@@ -97,11 +97,11 @@ export const handlePostback = async (sender_psid:string, received_postback: Mess
     switch(payload) {
       case "yes":
         response = { "text": "Thanks!" }
-        callSendAPI(sender_psid, response);
+        await callSendAPI(sender_psid, response);
         break
       case "no":
         response = { "text": "Oops, try sending another image." }
-        callSendAPI(sender_psid, response);
+        await callSendAPI(sender_psid, response);
         break
       case "GET_STARTED":
         const body:any = await getUserDetails(sender_psid)
@@ -109,15 +109,15 @@ export const handlePostback = async (sender_psid:string, received_postback: Mess
   
         //first message
         response = {"text": `Welcome ${username}, thanks for checking out Market Colony's Ecommerce ChatBot`}
-        callSendAPI(sender_psid, response);
+        await callSendAPI(sender_psid, response);
 
         //second message
         response = {"text": "At any time, use the menu below to navigate through the features."}
-        callSendAPI(sender_psid, response);
+        await callSendAPI(sender_psid, response);
 
         //third message
         response = viewCategories
-        callSendAPI(sender_psid, response);
+        await callSendAPI(sender_psid, response);
         break
       case "VIEW_CART":
         break
@@ -125,6 +125,6 @@ export const handlePostback = async (sender_psid:string, received_postback: Mess
         break
       default:
         response = {'text': "Command was not recognized"}
-        callSendAPI(sender_psid, response);
+        await callSendAPI(sender_psid, response);
     }
 }
