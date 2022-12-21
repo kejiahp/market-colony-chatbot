@@ -105,12 +105,14 @@ export const categoryProducts = (body: ProductType[]) => {
     })
   })
 
+  console.log("[THIS ARE THE ELEMENTS]",elements)
+
   return {
       "attachment":{
         "type":"template",
         "payload":{
           "template_type":"generic",
-          "elements":[elements]
+          "elements": elements
         }
       }
   }
