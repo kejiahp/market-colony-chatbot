@@ -28,6 +28,7 @@ export const getWebHook = (req: Request, res: Response) => {
 
 export const postWebHook = (req: Request, res: Response) => {
     const body = req.body
+    console.log("This is the request body",req.body)
     if (body.object === 'page') {
       
         body.entry.forEach((entry:any) => {
@@ -39,11 +40,11 @@ export const postWebHook = (req: Request, res: Response) => {
           let sender_psid = webhook_event.sender.id
           console.log('Sender PSID: '+sender_psid)
           
-        //   if (webhook_event.message) {
-        //     handleMessage(sender_psid, webhook_event.message)
-        //   } else if (webhook_event.postback) {
-        //     handlePostback(sender_psid, webhook_event.postback)
-        //   }
+          // if (webhook_event.message) {
+          //   handleMessage(sender_psid, webhook_event.message)
+          // } else if (webhook_event.postback) {
+          //   handlePostback(sender_psid, webhook_event.postback)
+          // }
         });
   
         res.status(200).send('EVENT_RECEIVED');
