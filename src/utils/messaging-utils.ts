@@ -32,7 +32,9 @@ export const handleMessage = async (sender_psid:string, received_message: any) =
     let response;
 
     // Check if the message contains text
-    if (received_message.text) { 
+    if (received_message.text) {
+      console.log("Show message",received_message)
+      console.log("Show payload",received_message.payload)
         switch (received_message.payload) {
           case "ELECTRONICS":
             const electronicProducts = await getElectronics()
