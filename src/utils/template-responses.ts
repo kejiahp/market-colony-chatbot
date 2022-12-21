@@ -34,10 +34,7 @@ export const setupProfileResponse = () => {
       "greeting": [
         {
           "locale":"default",
-          "text":"Typically replies instantly!" 
-        }, {
-          "locale":"en_US",
-          "text":"Market Colony Retail Bot"
+          "text":"Market Colony Retail Bot" 
         }
       ],
       "persistent_menu": [
@@ -62,4 +59,34 @@ export const setupProfileResponse = () => {
           "https://fondible.com/",
       ]    
   }
+}
+
+export const viewCategories =  {
+    "text": "Would you like to view our categories?",
+    "quick_replies":[
+      {
+        "content_type":"text",
+        "title":"Electronics",
+        "payload":"ELECTRONICS",
+      },
+      {
+        "content_type":"text",
+        "title":"Jewelery",
+        "payload":"JEWELERY",
+      },
+      {
+        "content_type":"text",
+        "title":"Men's Clothing",
+        "payload":"MENS_CLOTHING",
+      },
+      {
+        "content_type":"text",
+        "title":"Women's Clothing",
+        "payload":"WOMENS_CLOTHING",
+      }
+    ]
+}
+
+export const categoryProducts = {
+  
 }

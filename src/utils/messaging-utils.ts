@@ -1,16 +1,16 @@
 import request from "request";
 import { MessagingPostback } from "./fb-req-interfaces";
 import { getUserDetails } from "./helpers";
-import { imageAttachments } from "./template-responses";
+import { imageAttachments, viewCategories } from "./template-responses";
 
 // Sends response messages via the Send API
 const callSendAPI = (sender_psid:string, response:any) => {
     let request_body = {
-        "recipient": {
-          "id": sender_psid
-        },
-        "message": response
-    }
+      "recipient": {
+        "id": sender_psid
+      },
+      "message": response
+  }
 
     // Send the HTTP request to the Messenger Platform
     request({
@@ -63,22 +63,45 @@ export const handlePostback = async (sender_psid:string, received_postback: Mess
     let payload = received_postback.payload;
   
     // Set the response based on the postback payload
-    if (payload === 'yes') {
-      response = { "text": "Thanks!" }
-    } else if (payload === 'no') {
-      response = { "text": "Oops, try sending another image." }
-    } else if (payload === "GET_STARTED") {
-      const body = await getUserDetails(sender_psid) as any
-      const username = `${body.last_name} ${body.first_name}`
+    switch(payload) {
+      case "yes":
+        response = { "text": "Thanks!" }
+        callSendAPI(sender_psid, response);
+        break
+      case "no":
+        response = { "text": "Oops, try sending another image." }
+        callSendAPI(sender_psid, response);
+        break
+      case "GET_STARTED":
+        const body:any = await getUserDetails(sender_psid)
+        const username = `${body.last_name} ${body.first_name}`
+  
+        //first message
+        response = {"text": `Welcome ${username}, thanks for checking out Market Colony's Ecommerce ChatBot`}
+        callSendAPI(sender_psid, response);
 
-      response = {"text": `Welcome ${username}, thanks for checking out Market Colony's Ecommerce ChatBot`}
-    } else if (payload === "VIEW_CART") {
+        //second message
+        response = {"text": "At any time, use the menu below to navigate through the features."}
+        callSendAPI(sender_psid, response);
 
-    } else if (payload === "EMPTY_CART") {
-
-    } else {
-      response = {'text': "Command was not recognized"}
+        //third message
+        response = viewCategories
+        callSendAPI(sender_psid, response);
+        break
+      case "ELECTRONICS":
+        break
+      case "JEWELERY":
+        break
+      case "MENS_CLOTHING":
+        break
+      case "WOMENS_CLOTHING":
+        break
+      case "VIEW_CART":
+        break
+      case "EMPTY_CART":
+        break
+      default:
+        response = {'text': "Command was not recognized"}
+        callSendAPI(sender_psid, response);
     }
-    // Send the message to acknowledge the postback
-    callSendAPI(sender_psid, response);
 }
