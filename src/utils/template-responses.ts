@@ -31,6 +31,15 @@ export const setupProfileResponse = () => {
       "get_started": {
           "payload": "GET_STARTED"
       },
+      "greeting": [
+        {
+          "locale":"default",
+          "text":"Typically replies instantly!" 
+        }, {
+          "locale":"en_US",
+          "text":"Market Colony Retail Bot"
+        }
+      ],
       "persistent_menu": [
           {
               "locale": "default",
