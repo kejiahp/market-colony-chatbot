@@ -38,12 +38,12 @@ export const setupProfileResponse = () => {
               "call_to_actions": [
                   {
                       "type": "postback",
-                      "title": "view cart",
+                      "title": "View cart",
                       "payload": "VIEW_CART"
                   },
                   {
                       "type": "postback",
-                      "title": "empty cart",
+                      "title": "Empty cart",
                       "payload": "EMPTY_CART"
                   }
               ]

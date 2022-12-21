@@ -14,7 +14,8 @@ submitButton.addEventListener("click",(e)=>{
     })
     .then(res => res.json())
     .then(res => {
-        if(res.message === ok) {
+        console.log(res)
+        if(res.message === 'ok') {
             alert("Profile as been set up")
         } else(
             alert("Profile couldnt be set up")

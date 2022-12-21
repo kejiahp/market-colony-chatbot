@@ -71,7 +71,7 @@ export const handlePostback = async (sender_psid:string, received_postback: Mess
       const body = await getUserDetails(sender_psid) as any
       const username = `${body.last_name} ${body.first_name}`
 
-      response = {"text": `Welcome ${username}, thanks for checking out Market Colony Ecommerce Chat Bot`}
+      response = {"text": `Welcome ${username}, thanks for checking out Market Colony's Ecommerce ChatBot`}
     } else if (payload === "VIEW_CART") {
 
     } else if (payload === "EMPTY_CART") {
