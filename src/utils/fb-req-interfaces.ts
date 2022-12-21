@@ -1,13 +1,10 @@
-interface MessagingReferral {
+// TRIED TO CREATE INTERFACES FOR THE PAYLOADS OR RESPONSES FROM THE WEBHOOK
+
+export interface MessagingReferral {
     source: string;
     type: string;
     ref: string;
     referer_uri: string;
-  }
-  export interface MessagingPostback {
-    title: string;
-    payload: string;
-    referral: MessagingReferral;
   }
   export interface MessagingPostback {
     title: string;
