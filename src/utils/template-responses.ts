@@ -1,3 +1,5 @@
+import { ProductType } from "./helpers"
+
 export const imageAttachments = (attachment_url: string) => {
     return {
         "attachment": {
@@ -87,6 +89,30 @@ export const viewCategories =  {
     ]
 }
 
-export const categoryProducts = {
-  
+export const categoryProducts = (body: ProductType[]) => {
+  const elements = body.map((item:ProductType) => {
+    return JSON.stringify({
+      "title": item.title,
+      "image_url": item.image,
+      "subtitle": item.price,
+      "buttons":[
+        {
+          "type": "postback",
+          "title": "Add to cart",
+          "payload": `ADD_TO_CART_${item.id}_${item.category}_${item.price}`,
+        },
+      ]      
+    })
+  })
+
+  return {
+      "attachment":{
+        "type":"template",
+        "payload":{
+          "template_type":"generic",
+          "elements":[elements]
+        }
+      }
+  }
+
 }

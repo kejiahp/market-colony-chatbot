@@ -23,7 +23,20 @@ export const getUserDetails = (sender_psid: string) => {
     })
 }
 
-export const getJewelries = async () => {
+export type ProductType = {
+    id: number,
+    title:string,
+    price: number,
+    description:string,
+    category:string,
+    image:string,
+    rating:{
+        rate: number,
+        count: number
+    }
+}
+
+export const getJewelries = async ():Promise<ProductType[]> => {
     return new Promise((resolve, reject)=>{
         const uri = "https://fakestoreapi.com/products/category/jewelery"
         request({
@@ -40,8 +53,8 @@ export const getJewelries = async () => {
         })
     })
 }
-// {"id":9,"title":"WD 2TB Elements Portable External Hard Drive - USB 3.0 ","price":64,"description":"USB 3.0 and USB 2.0 Compatibility Fast data transfers Improve PC Performance High Capacity; Compatibility Formatted NTFS for Windows 10, Windows 8.1, Windows 7; Reformatting may be required for other operating systems; Compatibility may vary depending on user’s hardware configuration and operating system","category":"electronics","image":"https://fakestoreapi.com/img/61IBBVJvSDL._AC_SY879_.jpg","rating":{"rate":3.3,"count":203}}
-export const getElectronics = () => {
+
+export const getElectronics = ():Promise<ProductType[]> => {
     return new Promise((resolve, reject)=>{
         const uri = "https://fakestoreapi.com/products/category/electronics"
         request({
@@ -58,7 +71,7 @@ export const getElectronics = () => {
         })
     })
 }
-export const getMensClothing = () => {
+export const getMensClothing = ():Promise<ProductType[]> => {
     return new Promise((resolve, reject)=>{
         const uri = "https://fakestoreapi.com/products/category/men's%20clothing"
         request({
@@ -75,7 +88,7 @@ export const getMensClothing = () => {
         })
     })
 }
-export const getWomensClothing = () => {
+export const getWomensClothing = ():Promise<ProductType[]> => {
     return new Promise((resolve, reject)=>{
         const uri = "https://fakestoreapi.com/products/category/women's%20clothing"
         request({

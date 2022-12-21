@@ -1,7 +1,7 @@
 import request from "request";
 import { MessagingPostback } from "./fb-req-interfaces";
-import { getUserDetails } from "./helpers";
-import { imageAttachments, viewCategories } from "./template-responses";
+import { getElectronics, getJewelries, getMensClothing, getUserDetails, getWomensClothing } from "./helpers";
+import { categoryProducts, imageAttachments, viewCategories } from "./template-responses";
 
 // Sends response messages via the Send API
 const callSendAPI = (sender_psid:string, response:any) => {
@@ -89,12 +89,32 @@ export const handlePostback = async (sender_psid:string, received_postback: Mess
         callSendAPI(sender_psid, response);
         break
       case "ELECTRONICS":
+        const electronicProducts = await getElectronics()
+
+        response = categoryProducts(electronicProducts)
+        callSendAPI(sender_psid, response);
+
         break
       case "JEWELERY":
+        const jeweleryProducts = await getJewelries()
+
+        response = categoryProducts(jeweleryProducts)
+        callSendAPI(sender_psid, response);
+
         break
       case "MENS_CLOTHING":
+        const mensProducts = await getMensClothing()
+
+        response = categoryProducts(mensProducts)
+        callSendAPI(sender_psid, response);
+
         break
       case "WOMENS_CLOTHING":
+        const womensProducts = await getWomensClothing()
+
+        response = categoryProducts(womensProducts)
+        callSendAPI(sender_psid, response);
+
         break
       case "VIEW_CART":
         break
