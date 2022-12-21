@@ -1,5 +1,6 @@
 import request from "request";
 import { MessagingPostback } from "./fb-req-interfaces";
+import { getUserDetails } from "./helpers";
 import { imageAttachments } from "./template-responses";
 
 // Sends response messages via the Send API
@@ -29,8 +30,6 @@ const callSendAPI = (sender_psid:string, response:any) => {
 // Handles messages events
 export const handleMessage = (sender_psid:string, received_message: any) => {
     let response;
-    // const received_message = received_message.message
-
     // Check if the message contains text
     if (received_message.text) {    
   
@@ -57,7 +56,7 @@ export const handleMessage = (sender_psid:string, received_message: any) => {
 }
 
 // Handles messaging_postbacks events
-export const handlePostback = (sender_psid:string, received_postback: MessagingPostback) => {
+export const handlePostback = async (sender_psid:string, received_postback: MessagingPostback) => {
     let response;
   
     // Get the payload for the postback
@@ -68,6 +67,17 @@ export const handlePostback = (sender_psid:string, received_postback: MessagingP
       response = { "text": "Thanks!" }
     } else if (payload === 'no') {
       response = { "text": "Oops, try sending another image." }
+    } else if (payload === "GET_STARTED") {
+      const body = await getUserDetails(sender_psid) as any
+      const username = `${body.last_name} ${body.first_name}`
+
+      response = {"text": `Welcome ${username}, thanks for checking out Market Colony Ecommerce Chat Bot`}
+    } else if (payload === "VIEW_CART") {
+
+    } else if (payload === "EMPTY_CART") {
+
+    } else {
+      response = {'text': "Command was not recognized"}
     }
     // Send the message to acknowledge the postback
     callSendAPI(sender_psid, response);
