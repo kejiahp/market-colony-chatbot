@@ -1,6 +1,6 @@
 import request from "request";
 import { MessagingPostback } from "./fb-req-interfaces";
-import { getElectronics, getJewelries, getMensClothing, getUserDetails, getWomensClothing } from "./helpers";
+import { getElectronics, getJewelries, getMensClothing, getUserDetails, getWomensClothing, sendTypingOn } from "./helpers";
 import { categoryProducts, imageAttachments, viewCategories } from "./template-responses";
 
 // Sends response messages via the Send API
@@ -109,14 +109,17 @@ export const handlePostback = async (sender_psid:string, received_postback: Mess
   
         //first message
         response = {"text": `Welcome ${username}, thanks for checking out Market Colony's Ecommerce ChatBot`}
+        await sendTypingOn(sender_psid)
         await callSendAPI(sender_psid, response);
 
         //second message
         response = {"text": "At any time, use the menu below to navigate through the features."}
+        await sendTypingOn(sender_psid)
         await callSendAPI(sender_psid, response);
 
         //third message
         response = viewCategories
+        await sendTypingOn(sender_psid)
         await callSendAPI(sender_psid, response);
         break
       case "VIEW_CART":
