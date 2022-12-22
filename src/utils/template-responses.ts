@@ -1,4 +1,5 @@
-import { ProductType } from "./helpers"
+import { CartItemsInterFace } from "../model/cart-model"
+import { getUserDetails, ProductType } from "./helpers"
 
 export const imageAttachments = (attachment_url: string) => {
     return {
@@ -53,6 +54,11 @@ export const setupProfileResponse = () => {
                       "type": "postback",
                       "title": "Empty cart",
                       "payload": "EMPTY_CART"
+                  },
+                  {
+                      "type": "postback",
+                      "title": "View categories",
+                      "payload": "VIEW_CATEGORIES"
                   }
               ]
           }
@@ -94,18 +100,16 @@ export const categoryProducts = (body: ProductType[]) => {
     return JSON.stringify({
       "title": item.title,
       "image_url": item.image,
-      "subtitle": item.price,
+      "subtitle": `$ ${item.price}`,
       "buttons":[
         {
           "type": "postback",
           "title": "Add to cart",
-          "payload": `ADD_TO_CART_${item.id}_${item.category}_${item.price}`,
+          "payload": `ADD_TO_CART_${item.id}_${item.category}_${item.price}_${item.title}`,
         },
       ]      
     })
   })
-
-  console.log("[THIS ARE THE ELEMENTS]",elements)
 
   return {
       "attachment":{
@@ -117,4 +121,64 @@ export const categoryProducts = (body: ProductType[]) => {
       }
   }
 
+}
+
+export const showCartElements = {
+  "title":"Classic Gray T-Shirt",
+  "subtitle":"100% Soft and Luxurious Cotton",
+  "quantity":1,
+  "price":25,
+  "currency":"USD",
+  "image_url":"http://originalcoastclothing.com/img/grayshirt.png"
+}
+
+export const receipt_template = async (sender_psid: string, cartItems:CartItemsInterFace[]) => {
+  const body:any = await getUserDetails(sender_psid)
+  const username = `${body.last_name} ${body.first_name}`
+
+  let subtotal = 0
+  cartItems.forEach((item:CartItemsInterFace)=>{
+    subtotal += (Number(item.price) * item.quantity)
+  })
+
+  const shipping_cost = 5.00
+  const total_tax = 5.00
+  const total_cost = subtotal - (shipping_cost + total_tax)
+
+  const elements = cartItems.map((item:CartItemsInterFace)=>{
+    return {
+      "title":item.title,
+      "quantity": item.quantity,
+      "price": item.price,
+      "currency":"USD",
+    }
+  })
+
+  return JSON.stringify({
+    "attachment":{
+      "type":"template",
+      "payload":{
+        "template_type":"receipt",
+        "recipient_name": username,
+        "order_number":"00000",
+        "currency":"USD",
+        "payment_method":"Visa 12345", 
+        "address":{
+          "street_1":"Abeokuta Street",
+          "street_2":"",
+          "city":"Lagos",
+          "postal_code":"202021",
+          "state":"Lagos",
+          "country":"Nigeria"
+        },
+        "summary":{
+          "subtotal": subtotal,
+          "shipping_cost": shipping_cost,
+          "total_tax": total_tax,
+          "total_cost": total_cost
+        },
+        "elements": elements
+      }
+    }
+  })
 }

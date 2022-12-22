@@ -1,6 +1,7 @@
 import express from "express"
 import routes from "./routes"
 import dotenv from 'dotenv'
+import connect from "./utils/db-connect"
 
 const app = express()
 dotenv.config()
@@ -17,8 +18,8 @@ app.set('views', './src/views')
 
 const PORT = process.env.PORT || 8080
 
-app.listen(PORT, ()=>{
+app.listen(PORT, async ()=>{
     console.log(`server is listening on port ${PORT}`)
-
+    await connect()
     routes(app)
 })
