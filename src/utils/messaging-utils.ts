@@ -83,6 +83,10 @@ export const handleMessage = async (sender_psid:string, received_message: any) =
 
         await callSendAPI(sender_psid, response);
       }
+      else{
+        response = {'text': "Command was not recognized🤷"}
+        await callSendAPI(sender_psid, response);
+      }
       
 }
 
@@ -192,15 +196,15 @@ export const handlePostback = async (sender_psid:string, received_postback: Mess
         await callSendAPI(sender_psid, response);
       }
       else if (payload === "yes") {
-        response = { "text": "Thanks!" }
+        response = { "text": "Thanks 😊(❁´◡`❁)" }
         await callSendAPI(sender_psid, response);
       }
       else if (payload === "no") {
-        response = { "text": "Oops, try sending another image." }
+        response = { "text": "I HAVE YOUR ADDRESS AND I WILL FIND YOU.😈😈😈" }
         await callSendAPI(sender_psid, response);
       }
       else{
-        response = {'text': "Command was not recognized"}
+        response = {'text': "Command was not recognized🤷"}
         await callSendAPI(sender_psid, response);
       }
 

@@ -8,18 +8,18 @@ export const imageAttachments = (attachment_url: string) => {
           "payload": {
             "template_type": "generic",
             "elements": [{
-              "title": "Is this the right picture?",
+              "title": "Don't send picture's to us!",
               "subtitle": "Tap a button to answer.",
               "image_url": attachment_url,
               "buttons": [
                 {
                   "type": "postback",
-                  "title": "Yes!",
+                  "title": "OKAY",
                   "payload": "yes",
                 },
                 {
                   "type": "postback",
-                  "title": "No!",
+                  "title": "I WANT TO BE STUBBORN",
                   "payload": "no",
                 }
               ],
