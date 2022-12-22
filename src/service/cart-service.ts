@@ -20,7 +20,7 @@ export const findCart = async (psid:string) => {
 }
 export const findItemInCart = async (input: FilterQuery<CartItemsInterFace>) => {
     try{
-        const cart = await Cart.findOne(input)
+        const cart = await Cart.findOne({cartItems :input})
         return cart?.toJSON()
     }catch(e:any){
         return false
