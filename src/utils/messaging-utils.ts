@@ -83,6 +83,10 @@ export const handleMessage = async (sender_psid:string, received_message: any) =
 
         await callSendAPI(sender_psid, response);
       }
+    else{
+      response = {'text': "Command was not recognized🤷"}
+      await callSendAPI(sender_psid, response);
+    }
       
 }
 
