@@ -83,22 +83,6 @@ export const handleMessage = async (sender_psid:string, received_message: any) =
 
         await callSendAPI(sender_psid, response);
       }
-      else if(received_message.text === "hey baby...") {
-        response = {'text': "😏😏what"}
-        await callSendAPI(sender_psid, response);
-      }
-      else if (received_message.text === "you know i love you") {
-        response = {'text': "empty words prove it"}
-        await callSendAPI(sender_psid, response);
-      }
-      else if (received_message.text === "how would i do that?") {
-        response = {'text': "send something bad to my servers, real bad😏🥵🍑🍆"}
-        await callSendAPI(sender_psid, response);
-      }
-      else{
-        response = {'text': "Command was not recognized🤷"}
-        await callSendAPI(sender_psid, response);
-      }
       
 }
 

@@ -1,60 +1,32 @@
 import { CartItemsInterFace } from "../model/cart-model"
 import { getUserDetails, ProductType } from "./helpers"
 
-// export const imageAttachments = (attachment_url: string) => {
-//     return {
-//         "attachment": {
-//           "type": "template",
-//           "payload": {
-//             "template_type": "generic",
-//             "elements": [{
-//               "title": "Don't send picture's to us!",
-//               "subtitle": "Tap a button to answer.",
-//               "image_url": attachment_url,
-//               "buttons": [
-//                 {
-//                   "type": "postback",
-//                   "title": "OKAY",
-//                   "payload": "yes",
-//                 },
-//                 {
-//                   "type": "postback",
-//                   "title": "I WANT TO BE STUBBORN",
-//                   "payload": "no",
-//                 }
-//               ],
-//             }]
-//           }
-//         }
-//       }
-// }
-
 export const imageAttachments = (attachment_url: string) => {
-  return {
-      "attachment": {
-        "type": "template",
-        "payload": {
-          "template_type": "generic",
-          "elements": [{
-            "title": "Hmmm...Sexy🥵🥵🔥",
-            "subtitle": "Tap a button to answer.",
-            "image_url": attachment_url,
-            "buttons": [
-              {
-                "type": "postback",
-                "title": "Give me more🥲😏",
-                "payload": "yes",
-              },
-              {
-                "type": "postback",
-                "title": "I want more😭😭",
-                "payload": "no",
-              }
-            ],
-          }]
+    return {
+        "attachment": {
+          "type": "template",
+          "payload": {
+            "template_type": "generic",
+            "elements": [{
+              "title": "Don't send picture's to us!",
+              "subtitle": "Tap a button to answer.",
+              "image_url": attachment_url,
+              "buttons": [
+                {
+                  "type": "postback",
+                  "title": "OKAY",
+                  "payload": "yes",
+                },
+                {
+                  "type": "postback",
+                  "title": "I WANT TO BE STUBBORN",
+                  "payload": "no",
+                }
+              ],
+            }]
+          }
         }
       }
-    }
 }
 
 export const setupProfileResponse = () => {
