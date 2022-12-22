@@ -131,7 +131,7 @@ export const handlePostback = async (sender_psid:string, received_postback: Mess
               await callSendAPI(sender_psid, response);
             }
           }else{
-            const isItemInCart = await findItemInCart({itemId, category, price})
+            const isItemInCart = await findItemInCart({itemId})
 
             console.log("[isItemInCart]",isItemInCart)
 
@@ -148,7 +148,7 @@ export const handlePostback = async (sender_psid:string, received_postback: Mess
               const addToUserCart = await addToCart(sender_psid, {itemId, category, price, quantity,title})
 
               if(addToUserCart) {
-                response = {"text": `Items added to ${username} cart`}
+                response = {"text": `Items updated in ${username}'s cart`}
                 await callSendAPI(sender_psid, response);
               }
             }
