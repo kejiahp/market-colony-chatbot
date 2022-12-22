@@ -21,11 +21,6 @@ export const findCart = async (psid:string) => {
 export const findItemInCart = async (input: FilterQuery<CartItemsInterFace>) => {
     try{
         const cart = await Cart.findOne({cartItems: {$elemMatch: input }})
-
-        // Cart.findOne({'local.rooms': {$elemMatch: {name: req.body.username}}})
-
-        console.log("[SEARCH_VALUE]", {cartItems:input})
-        console.log("[FOUND ITEM]",cart)
         return cart?.toJSON()
     }catch(e:any){
         return false
@@ -34,6 +29,15 @@ export const findItemInCart = async (input: FilterQuery<CartItemsInterFace>) => 
 export const addToCart = async (psid: string, input:UpdateQuery<CartItemsInterFace>) => {
     try{
         const cart = await Cart.findOneAndUpdate({psid}, {$push: {cartItems: input}}, {new: true})
+        return cart?.toJSON()
+    }catch(e:any){
+        throw new Error(e)
+    }
+}
+export const updateCart = async (psid: string, previousValue: FilterQuery<CartItemsInterFace>, quantity:string ) => {
+    try{
+        const cart = await Cart.findOneAndUpdate({psid, cartItems: {$elemMatch : previousValue}}, {$set: {'cartItems.$.quantity':quantity}}, {new: true})
+        console.log(cart)
         return cart?.toJSON()
     }catch(e:any){
         throw new Error(e)

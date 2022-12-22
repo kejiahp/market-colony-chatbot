@@ -1,6 +1,6 @@
 import request from "request";
 import { CartItemsInterFace } from "../model/cart-model";
-import { addToCart, clearCart, createCart, findCart, findItemInCart } from "../service/cart-service";
+import { addToCart, clearCart, createCart, findCart, findItemInCart, updateCart } from "../service/cart-service";
 import { MessagingPostback } from "./fb-req-interfaces";
 import { getElectronics, getJewelries, getMensClothing, getUserDetails, getWomensClothing, sendTypingOn } from "./helpers";
 import { categoryProducts, imageAttachments, receipt_template, viewCategories } from "./template-responses";
@@ -133,8 +133,6 @@ export const handlePostback = async (sender_psid:string, received_postback: Mess
           }else{
             const isItemInCart = await findItemInCart({itemId, category, price})
 
-            console.log("[isItemInCart]",isItemInCart)
-
             if(!isItemInCart) {
               const addToUserCart = await addToCart(sender_psid, {itemId, category, price, quantity: 1,title})
               if(addToUserCart) {
@@ -143,9 +141,8 @@ export const handlePostback = async (sender_psid:string, received_postback: Mess
               }
             }else{
               const itemFromCart = isItemInCart.cartItems.find((item: CartItemsInterFace) => item.itemId === itemId && item.category === category && item.price === price)
-              console.log("[itemFromCart]", itemFromCart)
               const quantity = itemFromCart.quantity + 1
-              const addToUserCart = await addToCart(sender_psid, {itemId, category, price, quantity,title})
+              const addToUserCart = await updateCart(sender_psid, {itemId:itemFromCart.itemId, category:itemFromCart.category, price:itemFromCart.price}, quantity)
 
               if(addToUserCart) {
                 response = {"text": `Items updated in ${username}'s cart`}
