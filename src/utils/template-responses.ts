@@ -133,52 +133,57 @@ export const showCartElements = {
 }
 
 export const receipt_template = async (sender_psid: string, cartItems:CartItemsInterFace[]) => {
-  const body:any = await getUserDetails(sender_psid)
-  const username = `${body.last_name} ${body.first_name}`
+  try{
 
-  let subtotal = 0
-  cartItems.forEach((item:CartItemsInterFace)=>{
-    subtotal += (Number(item.price) * item.quantity)
-  })
-
-  const shipping_cost = 5.00
-  const total_tax = 5.00
-  const total_cost = subtotal - (shipping_cost + total_tax)
-
-  const elements = cartItems.map((item:CartItemsInterFace)=>{
-    return {
-      "title":item.title,
-      "quantity": item.quantity,
-      "price": item.price,
-      "currency":"USD",
-    }
-  })
-
-  return JSON.stringify({
-    "attachment":{
-      "type":"template",
-      "payload":{
-        "template_type":"receipt",
-        "recipient_name": username,
-        "order_number":"00000",
+    const body:any = await getUserDetails(sender_psid)
+    const username = `${body.last_name} ${body.first_name}`
+  
+    let subtotal = 0
+    cartItems.forEach((item:CartItemsInterFace)=>{
+      subtotal += (Number(item.price) * item.quantity)
+    })
+  
+    const shipping_cost = 5.00
+    const total_tax = 5.00
+    const total_cost = subtotal - (shipping_cost + total_tax)
+  
+    const elements = cartItems.map((item:CartItemsInterFace)=>{
+      return {
+        "title":item.title,
+        "quantity": item.quantity,
+        "price": item.price,
         "currency":"USD",
-        "payment_method":"Visa 12345", 
-        "address":{
-          "street_1":"Abeokuta Street",
-          "street_2":"",
-          "city":"Lagos",
-          "postal_code":"202021",
-          "state":"Lagos",
-          "country":"Nigeria"
-        },
-        "summary":{
-          "subtotal": subtotal,
-          "shipping_cost": shipping_cost,
-          "total_tax": total_tax,
-          "total_cost": total_cost
-        },
-        "elements": elements
       }
-    }
-  })
+    })
+  
+    return JSON.stringify({
+      "attachment":{
+        "type":"template",
+        "payload":{
+          "template_type":"receipt",
+          "recipient_name": username,
+          "order_number":"00000",
+          "currency":"USD",
+          "payment_method":"Visa 12345", 
+          "address":{
+            "street_1":"Abeokuta Street",
+            "street_2":"",
+            "city":"Lagos",
+            "postal_code":"202021",
+            "state":"Lagos",
+            "country":"Nigeria"
+          },
+          "summary":{
+            "subtotal": subtotal,
+            "shipping_cost": shipping_cost,
+            "total_tax": total_tax,
+            "total_cost": total_cost
+          },
+          "elements": elements
+        }
+      }
+    })
+  }catch(e:any){
+    console.log(e)
+  }
 }
