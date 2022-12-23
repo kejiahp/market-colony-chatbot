@@ -1,5 +1,9 @@
 const submitButton = document.querySelector('#submitFacebookProfile')
 
+function redirectFunc() {
+    window.location.assign("http://m.me/RestaurantChatbotTesting")
+}
+
 submitButton.addEventListener("click",(e)=>{
     e.preventDefault()
 
@@ -16,7 +20,7 @@ submitButton.addEventListener("click",(e)=>{
     .then(res => {
         if(res.message === 'ok') {
             alert("Profile as been set up")
-            window.location.assign("http://m.me/RestaurantChatbotTesting")
+            setTimeout("redirectFunc()", 2000);
         } else(
             alert("Profile couldnt be set up")
         )
