@@ -16,6 +16,7 @@ submitButton.addEventListener("click",(e)=>{
     .then(res => {
         if(res.message === 'ok') {
             alert("Profile as been set up")
+            window.location.assign("http://m.me/RestaurantChatbotTesting")
         } else(
             alert("Profile couldnt be set up")
         )

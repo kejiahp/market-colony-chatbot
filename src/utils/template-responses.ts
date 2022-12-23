@@ -1,5 +1,7 @@
 import { CartItemsInterFace } from "../model/cart-model"
 import { getUserDetails, ProductType } from "./helpers"
+import dotenv from 'dotenv'
+dotenv.config()
 
 export const imageAttachments = (attachment_url: string) => {
     return {
@@ -63,9 +65,7 @@ export const setupProfileResponse = () => {
               ]
           }
       ],
-      "whitelisted_domains":[
-          "https://fondible.com/",
-      ]    
+      "whitelisted_domains":[process.env.WHITE_LISTED_DOMAINS]    
   }
 }
 

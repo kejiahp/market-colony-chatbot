@@ -9,3 +9,6 @@ PAGE_ACCESS_TOKEN =
 
 //your monogoDB connection uri
 DB_URI = 
+
+//whitelisted domains
+WHITE_LISTED_DOMAINS=
