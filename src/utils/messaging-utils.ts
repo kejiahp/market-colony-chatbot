@@ -119,7 +119,8 @@ export const handlePostback = async (sender_psid:string, received_postback: Mess
         await callSendAPI(sender_psid, response);
       }
       else if(payload.startsWith("ADD_TO_CART")) {
-        //ADD_TO_CART_${item.id}_${item.category}_${item.price}
+        //THIS CONDITIONAL CONTROLS THE CARTING PROCESS
+
         await sendTypingOn(sender_psid)
         const body:any = await getUserDetails(sender_psid)
         const username = `${body.last_name} ${body.first_name}`
@@ -129,21 +130,25 @@ export const handlePostback = async (sender_psid:string, received_postback: Mess
           const hasCart = await findCart(sender_psid)
   
           if (!hasCart) {
+            //IF THE USER DOESNT HAVE A CART
             const createUserCart = await createCart({psid: sender_psid, cartItems: [{itemId, category, price, quantity:1,title}]})
             if(createUserCart) {
               response = {"text": `Cart created for ${username} and items added.`}
               await callSendAPI(sender_psid, response);
             }
           }else{
+            // IF THE USER DOES HAVE A CART
             const isItemInCart = await findItemInCart({itemId, category, price})
 
             if(!isItemInCart) {
+              //IF THE ITEM IS NOT IN THE CART
               const addToUserCart = await addToCart(sender_psid, {itemId, category, price, quantity: 1,title})
               if(addToUserCart) {
                 response = {"text": `Items added to ${username} cart`}
                 await callSendAPI(sender_psid, response);
               }
             }else{
+              //IF THE ITEM IS IN THE CART, FIND IT THE AND INCREASE THE QUANTITY TO AVOID DUPLICATES
               const itemFromCart = isItemInCart.cartItems.find((item: CartItemsInterFace) => item.itemId === itemId && item.category === category && item.price === price)
               const quantity = itemFromCart.quantity + 1
               const addToUserCart = await updateCart(sender_psid, {itemId:itemFromCart.itemId, category:itemFromCart.category, price:itemFromCart.price}, quantity)
@@ -156,6 +161,7 @@ export const handlePostback = async (sender_psid:string, received_postback: Mess
           }
 
         }catch(e:any){
+          //CART ERROR HANDLING
           console.log("[ADD TO CART ERROR]",e)
           response = {"text": `Unable to update cart`}
           await callSendAPI(sender_psid, response);

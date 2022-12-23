@@ -39,7 +39,7 @@ export const setupProfileResponse = () => {
       "greeting": [
         {
           "locale":"default",
-          "text":"Market Colony Retail Bot" 
+          "text":"Market Colony Retail Bot, to give the user a wonderful buying and selling experience😊" 
         }
       ],
       "persistent_menu": [
